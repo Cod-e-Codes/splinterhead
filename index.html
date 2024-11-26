@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Splinterhead Forge & Timber</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./splinterhead1.png">
+    <!-- Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arbutus&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio"></script>
+    <!-- Tailwind CSS Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'media',
+            corePlugins: {
+                // Enable all core plugins (optional)
+                preflight: true,
+            },
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in-left': 'fade-in-left 1s ease-out',
+                        'bounce': 'bounce 1s infinite',
+                        'fade-in': 'fade-in 1s ease-out',
+                        'fade-in-down': 'fade-in-down 1s ease-out',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        'fade-in-left': {
+                            '0%': {
+                                opacity: '0',
+                                transform: 'translateX(-50px)'
+                            },
+                            '100%': {
+                                opacity: '1',
+                                transform: 'translateX(0)'
+                            },
+                        },
+                        'fade-in': {
+                            '0%': {
+                                opacity: '0',
+                            },
+                            '100%': {
+                                opacity: '1',
+                            },
+                        },
+                        'fade-in-down': {
+                            '0%': {
+                                opacity: '0',
+                                transform: 'translateY(-50px)'
+                            },
+                            '100%': {
+                                opacity: '1',
+                                transform: 'translateY(0)'
+                            },
+                        },
+                    },
+                    colors: {
+                        amber: {
+                            '500': '#F59E0B',
+                            '600': '#D97706',
+                            '700': '#B45309',
+                            '800': '#92400E',
+                        },
+                    },
+                },
+            },
+            variants: {
+                extend: {
+                    cursor: ['hover', 'focus'],
+                    textColor: ['hover', 'focus', 'active'],
+                    borderWidth: ['hover', 'focus'],
+                    borderColor: ['hover', 'focus'],
+                    transform: ['hover', 'focus'],
+                    translate: ['hover', 'focus'],
+                    boxShadow: ['hover', 'focus'],
+                    animation: ['hover', 'focus'],
+                },
+            },
+            plugins: [],
+        }
+    </script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- KeenSlider CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/keen-slider.min.css" rel="stylesheet" />
+
+    <!-- KeenSlider JS -->
+    <script src="https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/keen-slider.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const keenSliderElement = document.querySelector("#keen-slider");
+
+            if (keenSliderElement) {
+                const keenSlider = new KeenSlider("#keen-slider", {
+                    loop: true,
+                    slides: {
+                        perView: 1, // Ensure one slide at a time
+                        spacing: 16,
+                    },
+                    created: function (slider) {
+                        document.querySelector(".keen-slider-prev").addEventListener("click", function () {
+                            slider.prev();
+                        });
+                        document.querySelector(".keen-slider-next").addEventListener("click", function () {
+                            slider.next();
+                        });
+                    }
+                });
+            } else {
+                console.error("KeenSlider element not found.");
+            }
+        });
+
+    </script>
+
+    <style>
+        body {
+            padding-top: calc(4rem + 2rem);
+            /* Adjust this value to match your header height */
+        }
+
+        /* Hero Section Styling */
+        .hero {
+            background-image: url('./hero-bg.png');
+            background-attachment: fixed;
+            /* Parallax Effect */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Overlay for Light and Dark Modes */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            /* Dark overlay */
+            mix-blend-mode: multiply;
+            transition: background 0.3s ease;
+        }
+
+        .dark .hero::before {
+            background: rgba(255, 255, 255, 0.2);
+            /* Light overlay for dark mode */
+        }
+
+        /* Responsive Text Adjustments */
+        .hero-text {
+            z-index: 1;
+            text-align: center;
+            max-width: 80%;
+            padding: 0 1rem;
+        }
+
+        .arbutus-regular {
+            font-family: "Arbutus", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        /* Navigation Underline Effect */
+        .nav-item::after {
+            content: '';
+            display: block;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #F59E0B, transparent);
+            transition: width 0.3s;
+            margin: auto;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        /* Service Card Flip Effect */
+        .service-card {
+            perspective: 1000px;
+            height: 100%;
+            /* Ensure the service card takes the full height of its container */
+            min-height: 260px;
+            /* Base height */
+        }
+
+        @media (min-width: 768px) {
+            .service-card {
+                min-height: 320px;
+                /* Adjust height for tablet screens */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .service-card {
+                min-height: 360px;
+                /* Adjust height for desktop screens */
+            }
+        }
+
+        .service-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            /* Ensure the inner content fills the height */
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .service-card:hover .service-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .service-card-front,
+        .service-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Ensure both sides fill the card */
+            backface-visibility: hidden;
+            padding: 0.75rem;
+            /* General padding for small screens */
+        }
+
+        @media (min-width: 768px) {
+
+            .service-card-front,
+            .service-card-back {
+                padding: 0.85rem;
+                /* Slightly smaller padding for medium screens */
+            }
+        }
+
+        @media (min-width: 1024px) {
+
+            .service-card-front,
+            .service-card-back {
+                padding: 1rem;
+                /* Standard padding for larger screens */
+            }
+        }
+
+        .service-card-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            /* Reduced gap for more compact layout */
+        }
+
+        .service-card-back i {
+            color: #F59E0B;
+            font-size: 1.75rem;
+            /* Slightly reduced icon size */
+        }
+
+        .service-card-back hr {
+            width: 40%;
+            /* Reduced width for decorative line */
+            border-color: #F59E0B;
+            border-width: 1px;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .lightbox-caption {
+            text-align: center;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 30px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close-lightbox:hover,
+        .close-lightbox:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Input Animations */
+        .floating-label input:focus+label,
+        .floating-label input:not(:placeholder-shown)+label {
+            transform: translateY(-1.5rem);
+            font-size: 0.75rem;
+            color: #F59E0B;
+        }
+
+        .floating-label input:focus {
+            border-color: #F59E0B;
+        }
+
+        .floating-label {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .floating-label input {
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            width: 100%;
+            border-radius: 0.375rem;
+            background: transparent;
+            color: #333;
+        }
+
+        .dark .floating-label input {
+            background: #1F2937;
+            color: #E5E7EB;
+            border-color: #4B5563;
+        }
+
+        .floating-label label {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            color: #6B7280;
+        }
+
+        .dark .floating-label label {
+            color: #9CA3AF;
+        }
+
+        /* Contact Section Split Screen */
+        .contact-split {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .contact-split {
+                flex-direction: row;
+            }
+        }
+
+        /* Base styles for filter buttons */
+        .filter-btn {
+            background-color: #e5e7eb;
+            /* Light gray */
+            color: #1f2937;
+            /* Dark gray */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .filter-btn.dark {
+            background-color: #374151;
+            /* Dark gray for dark mode */
+            color: #f3f4f6;
+            /* Light color for dark mode */
+        }
+
+        /* Active and Hover States */
+        .filter-btn:hover {
+            background-color: #f59e0b;
+            /* Amber color on hover */
+            color: #fff;
+            /* White text on hover */
+        }
+
+        .filter-btn.active {
+            background-color: #f59e0b;
+            /* Amber color when active */
+            color: #fff;
+            /* White text when active */
+        }
+
+        @media (max-width: 768px) {
+            #contact form .relative:last-child {
+                margin-bottom: 1.5rem;
+                /* Adjust the value as needed for the desired spacing */
+            }
+        }
+
+        .subscribe-container {
+            width: 100%;
+            height: 100%;
+            --s: 150px;
+            /* control the size */
+            --c1: #f59e0b;
+            --c2: #1F2937;
+
+            --_g: var(--c1) 0% 5%, var(--c2) 6% 15%, var(--c1) 16% 25%, var(--c2) 26% 35%, var(--c1) 36% 45%, var(--c2) 46% 55%, var(--c1) 56% 65%, var(--c2) 66% 75%, var(--c1) 76% 85%, var(--c2) 86% 95%, #0000 96%;
+            background: radial-gradient(50% 50% at 100% 0, var(--_g)),
+                radial-gradient(50% 50% at 0 100%, var(--_g)),
+                radial-gradient(50% 50%, var(--_g)),
+                radial-gradient(50% 50%, var(--_g)) calc(var(--s) / 2) calc(var(--s) / 2) var(--c1);
+            background-size: var(--s) var(--s);
+        }
+
+        .highlighted-text {
+            display: inline;
+            background-color: rgba(255, 255, 255, 0.85);
+            /* Light mode background */
+            color: inherit;
+            /* Inherit text color */
+            border-radius: 8px;
+            padding: 0 8px;
+            /* Increased side padding from 4px to 8px */
+        }
+
+        /* Dark mode styles using media query */
+        @media (prefers-color-scheme: dark) {
+            .highlighted-text {
+                background-color: rgba(31, 41, 55, 0.85);
+                /* Dark mode background */
+                color: rgba(229, 231, 235, 1);
+                /* Text color */
+            }
+        }
+
+        .rotated-callout {
+            transform: rotate(36deg) translateY(-15%) translateX(-50%);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 pt-20">
+    <!-- Navigation Bar -->
+    <header class="bg-white dark:bg-gray-800 shadow-md fixed w-full top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center">
+                <img src="./splinterhead1-transparent.png" alt="Splinterhead Logo" class="mr-2" style="height: 6rem;">
+            </a>
+            <!-- Menu Toggle Button for Mobile -->
+            <div class="md:hidden">
+                <button class="text-gray-800 dark:text-gray-200 focus:outline-none" onclick="toggleMenu()">
+                    <i class="fas fa-bars fa-2x"></i>
+                </button>
+            </div>
+            <!-- Menu -->
+            <ul id="menu"
+                class="hidden fixed top-16 left-0 right-0 bg-white dark:bg-gray-800 z-50 flex flex-col items-center md:static md:flex md:flex-row md:space-x-6 md:w-auto">
+                <li class="py-2">
+                    <a href="#" onclick="toggleMenu()"
+                        class="nav-item text-gray-800 dark:text-gray-200 hover:text-amber-500 focus:text-amber-500 active:text-amber-500 cursor-pointer">Home</a>
+                </li>
+                <li class="py-2">
+                    <a href="#about" onclick="toggleMenu()"
+                        class="nav-item text-gray-800 dark:text-gray-200 hover:text-amber-500 focus:text-amber-500 active:text-amber-500 cursor-pointer">About
+                        Us</a>
+                </li>
+                <li class="py-2">
+                    <a href="#services" onclick="toggleMenu()"
+                        class="nav-item text-gray-800 dark:text-gray-200 hover:text-amber-500 focus:text-amber-500 active:text-amber-500 cursor-pointer">Services</a>
+                </li>
+                <li class="py-2">
+                    <a href="#portfolio" onclick="toggleMenu()"
+                        class="nav-item text-gray-800 dark:text-gray-200 hover:text-amber-500 focus:text-amber-500 active:text-amber-500 cursor-pointer">Portfolio</a>
+                </li>
+                <li class="py-2">
+                    <a href="#contact" onclick="toggleMenu()"
+                        class="nav-item text-gray-800 dark:text-gray-200 hover:text-amber-500 focus:text-amber-500 active:text-amber-500 cursor-pointer">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero relative h-screen bg-fixed bg-cover bg-center" style="background-image: url('./hero-bg.png');">
+        <!-- Overlay for Light and Dark Modes -->
+        <div
+            class="absolute inset-0 bg-black bg-opacity-40 dark:bg-white dark:bg-opacity-20 transition-colors duration-300">
+        </div>
+
+        <!-- Content Container -->
+        <div class="container mx-auto h-full flex items-center justify-center relative">
+            <div class="text-center z-10">
+                <h1
+                    class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 animate-fade-in-left arbutus-regular uppercase tracking-wider">
+                    Crafting Excellence in Wood & Metal</h1>
+                <p class="text-xl sm:text-2xl md:text-3xl text-gray-200 mx-2 mb-8 animate-fade-in">
+                    Custom woodworking and metal forging solutions tailored to your needs.
+                </p>
+                <a href="#services"
+                    class="bg-gradient-to-b from-amber-500 to-amber-700 text-white px-6 py-3 rounded-full text-lg hover:from-amber-600 hover:to-amber-800 animate-bounce">
+                    Explore Our Services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section with Asymmetrical Layout -->
+    <section id="about" class="py-16 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Text Content with Icons -->
+                <div class="order-2 md:order-1">
+                    <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">About Us</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                        At Splinterhead Forge & Timber, we combine traditional craftsmanship with modern techniques to
+                        create unique wood and metal pieces. With over 20 years of experience, our artisans are
+                        dedicated
+                        to bringing your vision to life.
+                    </p>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chisel text-amber-500 text-2xl mr-2"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Expert Woodworking</span>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-anvil text-amber-500 text-2xl mr-2"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Masterful Metal Forging</span>
+                    </div>
+                    <a href="#contact"
+                        class="inline-block bg-gradient-to-b from-amber-500 to-amber-700 text-white px-6 py-3 rounded-full text-lg hover:from-amber-600 hover:to-amber-800">
+                        Get in Touch
+                    </a>
+                </div>
+                <!-- Asymmetrical Images with Parallax Effect -->
+                <div class="order-1 md:order-2">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-1">
+                            <img src="./workshop.png" alt="Our Workshop"
+                                class="rounded-lg shadow-lg w-full h-full object-cover transform hover:scale-105 transition duration-500"
+                                data-aos="fade-up">
+                        </div>
+                        <div class="col-span-1">
+                            <img src="./splinterhead3.png" alt="Splinterhead 3"
+                                class="rounded-lg shadow-lg w-full h-full object-cover transform hover:scale-105 transition duration-500"
+                                data-aos="fade-down">
+                        </div>
+                        <div class="col-span-2">
+                            <img src="./splinterhead4.png?v=1.0" alt="Splinterhead 4"
+                                class="rounded-lg shadow-lg w-full h-full object-cover transform hover:scale-105 transition duration-500"
+                                data-aos="fade-up">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section with Cards -->
+    <section id="services" class="py-20 bg-gray-100 dark:bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 text-center mb-12">Our Services</h2>
+            <div class="flex flex-wrap -mx-4">
+                <!-- Service 1 -->
+                <div class="w-full md:w-1/3 px-4 mb-8">
+                    <div
+                        class="service-card bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg text-center transform transition hover:-translate-y-2 hover:shadow-2xl">
+                        <div class="service-card-inner">
+                            <!-- Front Side -->
+                            <div class="service-card-front">
+                                <i class="fas fa-hammer fa-3x text-amber-500 mb-4"></i>
+                                <h3
+                                    class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                                    Custom Woodworking</h3>
+                                <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
+                                    Bespoke furniture, cabinetry, and wood art crafted to perfection.
+                                </p>
+                            </div>
+                            <!-- Back Side -->
+                            <div class="service-card-back flex flex-col items-center justify-center space-y-4">
+                                <i class="fas fa-leaf text-amber-500 fa-2x"></i> <!-- Optional decorative icon -->
+                                <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
+                                    Our woodworking experts bring your ideas to life with precision and artistry.
+                                </p>
+                                <hr class="w-1/2 border-amber-500"> <!-- Optional decorative line -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 2 -->
+                <div class="w-full md:w-1/3 px-4 mb-8">
+                    <div
+                        class="service-card bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg text-center transform transition hover:-translate-y-2 hover:shadow-2xl">
+                        <div class="service-card-inner">
+                            <!-- Front Side -->
+                            <div class="service-card-front">
+                                <i class="fas fa-fire fa-3x text-amber-500 mb-4"></i>
+                                <h3
+                                    class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                                    Metal Forging</h3>
+                                <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
+                                    Hand-forged metalworks including gates, railings, and decorative pieces.
+                                </p>
+                            </div>
+                            <!-- Back Side -->
+                            <div class="service-card-back flex flex-col items-center justify-center space-y-4">
+                                <i class="fas fa-shield-alt text-amber-500 fa-2x"></i> <!-- Optional decorative icon -->
+                                <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
+                                    Our blacksmiths create durable and artistic metal pieces for any application.
+                                </p>
+                                <hr class="w-1/2 border-amber-500"> <!-- Optional decorative line -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 3 -->
+                <div class="w-full md:w-1/3 px-4 mb-8">
+                    <div
+                        class="service-card bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg text-center transform transition hover:-translate-y-2 hover:shadow-2xl">
+                        <div class="service-card-inner">
+                            <!-- Front Side -->
+                            <div class="service-card-front">
+                                <i class="fas fa-tools fa-3x text-amber-500 mb-4"></i>
+                                <h3
+                                    class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                                    Restoration Services</h3>
+                                <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
+                                    Revitalizing antique wood and metal pieces to their former glory.
+                                </p>
+                            </div>
+                            <!-- Back Side -->
+                            <div class="service-card-back flex flex-col items-center justify-center space-y-4">
+                                <i class="fas fa-redo text-amber-500 fa-2x"></i> <!-- Optional decorative icon -->
+                                <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
+                                    We restore and preserve the integrity of your cherished items with care.
+                                </p>
+                                <hr class="w-1/2 border-amber-500"> <!-- Optional decorative line -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section with Lightbox and Filters -->
+    <section id="portfolio" class="py-16 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 text-center mb-12">Featured Projects</h2>
+            <!-- Filter Buttons -->
+            <div class="flex overflow-x-auto flex-nowrap justify-start mb-8 px-2 space-x-2">
+                <button
+                    class="filter-btn bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full"
+                    data-filter="all">All</button>
+                <button
+                    class="filter-btn bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full"
+                    data-filter="wood">Woodworking</button>
+                <button
+                    class="filter-btn bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full"
+                    data-filter="metal">Metal Forging</button>
+                <button
+                    class="filter-btn bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full"
+                    data-filter="restoration">Restoration</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Portfolio Item 1 -->
+                <div class="group relative overflow-hidden rounded-lg shadow-lg portfolio-item" data-category="wood">
+                    <img src="./project-table.png" alt="Dining Table Project" class="object-cover w-full h-64">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <h3 class="text-xl font-bold text-white">Handcrafted Dining Table</h3>
+                    </div>
+                    <a href="./project-table.png" class="lightbox-trigger absolute inset-0"></a>
+                </div>
+                <!-- Portfolio Item 2 -->
+                <div class="group relative overflow-hidden rounded-lg shadow-lg portfolio-item" data-category="metal">
+                    <img src="./project-gate.png" alt="Wrought Iron Gate Project" class="object-cover w-full h-64">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <h3 class="text-xl font-bold text-white">Wrought Iron Gate</h3>
+                    </div>
+                    <a href="./project-gate.png" class="lightbox-trigger absolute inset-0"></a>
+                </div>
+                <!-- Portfolio Item 3 -->
+                <div class="group relative overflow-hidden rounded-lg shadow-lg portfolio-item"
+                    data-category="restoration">
+                    <img src="./project-chair.png" alt="Chair Restoration Project" class="object-cover w-full h-64">
+                    <div
+                        class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                        <h3 class="text-xl font-bold text-white">Antique Chair Restoration</h3>
+                    </div>
+                    <a href="./project-chair.png" class="lightbox-trigger absolute inset-0"></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox-modal" class="lightbox">
+            <span class="close-lightbox">&times;</span>
+            <img class="lightbox-content" id="lightbox-image">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section Revamp -->
+    <section id="contact" class="py-16 bg-gray-100 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 text-center mb-8">Contact Us</h2>
+            <!-- Grid layout for desktop with aligned items -->
+            <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+                <!-- Left Column: Contact Info + Testimonials -->
+                <div class="space-y-8 flex flex-col justify-between h-full">
+                    <!-- Contact Info -->
+                    <div class="text-gray-600 dark:text-gray-400 space-y-4">
+                        <p><i class="fas fa-phone-alt text-amber-500 mr-2"></i> (864) 614-2399</p>
+                        <p><i class="fas fa-envelope text-amber-500 mr-2"></i> info@splinterheadforge.com</p>
+                        <p><i class="fas fa-map-marker-alt text-amber-500 mr-2"></i> Seneca, South Carolina 29672</p>
+                    </div>
+                    <!-- Carousel of Testimonials -->
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col h-full mb-4">
+                        <div id="keen-slider" class="keen-slider mb-4 flex-grow">
+                            <!-- Slide 1 -->
+                            <div class="keen-slider__slide">
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                    "Splinterhead Forge & Timber exceeded our expectations with their craftsmanship!"
+                                </p>
+                                <p class="text-gray-800 dark:text-gray-200 font-bold">- John Doe</p>
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="keen-slider__slide">
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                    "Their attention to detail is unmatched. Highly recommend!"
+                                </p>
+                                <p class="text-gray-800 dark:text-gray-200 font-bold">- Jane Smith</p>
+                            </div>
+                            <!-- Slide 3 -->
+                            <div class="keen-slider__slide">
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                    "A truly professional team delivering top-notch work."
+                                </p>
+                                <p class="text-gray-800 dark:text-gray-200 font-bold">- Emily Johnson</p>
+                            </div>
+                        </div>
+                        <!-- Navigation Arrows with Splinterhead Image and Callout -->
+                        <div class="flex justify-between items-center mt-4 lg:mt-8">
+                            <button class="keen-slider-prev text-amber-500">
+                                <i class="fas fa-chevron-left fa-2x"></i>
+                            </button>
+                            <!-- Splinterhead Image and Callout in a Nested Flexbox -->
+                            <div class="flex items-center mx-4">
+                                <img src="./splinterhead-cartoon.png" alt="Splinterhead Logo" class="h-20 lg:h-24">
+                                <img src="./callout.png" alt="Client Testimonial Callout"
+                                    class="h-24 md:h-28 lg:h-32 rotated-callout">
+                            </div>
+                            <button class="keen-slider-next text-amber-500">
+                                <i class="fas fa-chevron-right fa-2x"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Right Column: Contact Form -->
+                <div class="h-full flex items-stretch">
+                    <form action="#" method="POST"
+                        class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex-grow flex flex-col mt-4">
+                        <!-- Form Fields Container -->
+                        <div class="space-y-4 flex-grow">
+                            <!-- Name Field -->
+                            <div class="relative">
+                                <label for="name"
+                                    class="hidden text-sm font-medium text-gray-900 dark:text-gray-300">Name</label>
+                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-user text-gray-500 dark:text-gray-400"></i>
+                                </div>
+                                <input
+                                    class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
+                                    type="text" id="name" name="name" placeholder="Enter your name" required>
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="relative">
+                                <label for="email"
+                                    class="hidden text-sm font-medium text-gray-900 dark:text-gray-300">Email</label>
+                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-envelope text-gray-500 dark:text-gray-400"></i>
+                                </div>
+                                <input
+                                    class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
+                                    type="email" id="email" name="email" placeholder="Enter your email" required>
+                            </div>
+
+                            <!-- Message Field -->
+                            <div class="relative">
+                                <label for="message"
+                                    class="hidden text-sm font-medium text-gray-900 dark:text-gray-300">Message</label>
+                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-comment text-gray-500 dark:text-gray-400"></i>
+                                </div>
+                                <textarea
+                                    class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
+                                    id="message" name="message" rows="4" placeholder="Enter your message"
+                                    required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Button at the Bottom -->
+                        <button type="submit"
+                            class="bg-gradient-to-b from-amber-500 to-amber-700 text-white w-full md:w-auto px-6 py-3 rounded-full hover:from-amber-600 hover:to-amber-800 coming-soon">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="bg-white dark:bg-gray-900 subscribe-container relative">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-white opacity-90 dark:bg-black dark:opacity-80"></div>
+        <!-- Content Wrapper -->
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 relative z-10">
+            <div class="mx-auto max-w-screen-md sm:text-center">
+                <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl dark:text-white">
+                    <span class="highlighted-text">Sign up for our newsletter</span>
+                </h2>
+                <p class="mx-auto mb-8 max-w-2xl font-light text-gray-500 md:mb-12 sm:text-xl dark:text-gray-400">
+                    <span class="highlighted-text">Stay up to date with the latest news, announcements, and exclusive
+                        offers from Splinterhead Forge & Timber.</span>
+                </p>
+                <form action="#" method="POST">
+                    <div class="items-center mx-auto mb-3 space-y-4 max-w-screen-sm sm:flex sm:space-y-0">
+                        <div class="relative w-full">
+                            <label for="email"
+                                class="hidden mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email
+                                address</label>
+                            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+                                    </path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </div>
+                            <input
+                                class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:rounded-none sm:rounded-l-lg focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
+                                placeholder="Enter your email" type="email" id="email" required>
+                        </div>
+                        <div>
+                            <button type="submit"
+                                class="bg-gradient-to-b from-amber-500 to-amber-700 text-white w-full md:w-auto px-6 py-3 rounded-full md:rounded-r-full md:rounded-l-none hover:from-amber-600 hover:to-amber-800">
+                                Subscribe
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mx-auto max-w-screen-sm text-sm text-left text-gray-500 dark:text-gray-300">
+                        We care about your data privacy. <a href="#"
+                            class="font-medium text-amber-600 dark:text-amber-500 hover:underline">Read our Privacy
+                            Policy</a>.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <img src="./splinterhead1-transparent.png" alt="Splinterhead Logo" class="mb-4 h-16">
+                    <p class="text-gray-400">&copy; 2024 Splinterhead Forge & Timber. All rights reserved.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-bold mb-4 text-amber-500">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-amber-400">Home</a></li>
+                        <li><a href="#about" class="hover:text-amber-400">About Us</a></li>
+                        <li><a href="#services" class="hover:text-amber-400">Services</a></li>
+                        <li><a href="#portfolio" class="hover:text-amber-400">Portfolio</a></li>
+                        <li><a href="#contact" class="hover:text-amber-400">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Legal -->
+                <div>
+                    <h3 class="font-bold mb-4 text-amber-500">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="./terms-of-service.html" class="hover:text-amber-400">Terms of Service</a></li>
+                        <li><a href="./privacy-policy.html" class="hover:text-amber-400">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <!-- Follow Us -->
+                <div>
+                    <h3 class="font-bold mb-4 text-amber-500">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="" class="hover:text-amber-400 coming-soon"><i class="fab fa-facebook-f fa-2x"></i></a>
+                        <a href="" class="hover:text-amber-400 coming-soon"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="" class="hover:text-amber-400 coming-soon"><i class="fab fa-x-twitter fa-2x"></i></a>
+                        <a href="" class="hover:text-amber-400 coming-soon"><i class="fab fa-github fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const header = document.querySelector('header');
+            const headerHeight = header.offsetHeight;
+
+            // Set the top position dynamically
+            menu.style.top = `${headerHeight}px`;
+            menu.classList.toggle('hidden');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const href = this.getAttribute('href');
+                const headerHeight = document.querySelector('header').offsetHeight;
+
+                if (href === "#") {
+                    // Scroll to the top of the page
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - headerHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Lightbox Functionality
+        const lightboxModal = document.getElementById('lightbox-modal');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const closeLightbox = document.querySelector('.close-lightbox');
+
+        document.querySelectorAll('.lightbox-trigger').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                lightboxModal.style.display = 'block';
+                lightboxImage.src = this.getAttribute('href');
+                lightboxCaption.innerHTML = this.parentElement.querySelector('h3').innerText;
+            });
+        });
+
+        closeLightbox.addEventListener('click', function () {
+            lightboxModal.style.display = 'none';
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+            // Show all items by default and set the "All" button as active
+            portfolioItems.forEach(item => item.style.display = 'block');
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const category = this.getAttribute('data-filter');
+
+                    // Remove 'active' class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+
+                    // Add 'active' class to the clicked button
+                    this.classList.add('active');
+
+                    // Filter portfolio items
+                    if (category === 'all') {
+                        portfolioItems.forEach(item => item.style.display = 'block');
+                    } else {
+                        portfolioItems.forEach(item => {
+                            if (item.getAttribute('data-category') === category) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        function showSnackbar(message) {
+            const snackbar = document.getElementById('snackbar');
+            snackbar.textContent = message; // Set the message
+            snackbar.classList.remove('hidden'); // Show the snackbar
+            snackbar.classList.add('opacity-100');
+
+            // Hide the snackbar after 3 seconds
+            setTimeout(() => {
+                snackbar.classList.add('opacity-0');
+                setTimeout(() => {
+                    snackbar.classList.add('hidden');
+                    snackbar.classList.remove('opacity-0', 'opacity-100');
+                }, 300); // Duration of the fade-out transition
+            }, 3000); // Display time
+        }
+
+        // Example Usage: Attach to Elements
+        document.querySelectorAll('.coming-soon').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSnackbar('Feature coming soon!');
+            });
+        });
+
+    </script>
+    <!-- Snackbar Container -->
+    <div id="snackbar"
+        class="hidden fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white py-3 px-6 rounded-lg shadow-lg transition-opacity duration-300">
+        Feature coming soon!
+    </div>
+
+</body>
+
+</html>
