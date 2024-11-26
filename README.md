@@ -56,18 +56,6 @@ To view the website locally:
 
 3. Open `index.html` in a browser to view the home page.
 
-## Deployment to GitHub Pages
-
-To deploy this site to GitHub Pages:
-
-1. Navigate to your GitHub repository: [https://github.com/Cod-e-Codes/splinterhead-forge-timber](https://github.com/Cod-e-Codes/splinterhead-forge-timber).
-2. Go to **Settings** > **Pages**.
-3. Under **Source**, select the `main` branch and `/ (root)` directory.
-4. Save the changes, and GitHub Pages will publish your website at:
-   ```
-   https://<your-github-username>.github.io/splinterhead-forge-timber/
-   ```
-
 ---
 
 ## License
